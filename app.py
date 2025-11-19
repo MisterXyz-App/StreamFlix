@@ -5,6 +5,7 @@ from flask_login import LoginManager, current_user, login_required
 from datetime import datetime, timezone, timedelta
 from werkzeug.security import generate_password_hash
 import pytz
+import os
 
 # Import blueprints
 from routes.user_routes import user_bp
@@ -279,10 +280,17 @@ def create_app():
     
     return app
 
+# Buat instance aplikasi untuk Gunicorn
+app = create_app()
+
 if __name__ == '__main__':
-    app = create_app()
+    # Dapatkan port dari environment variable atau default ke 5000
+    port = int(os.environ.get('PORT', 5000))
+    
     print("🚀 StreamFlix starting...")
     print("📧 Admin Login: misterxyz597@gmail.com")
     print("🔑 Admin Password: Ubg72yisQwlc")
-    print("🌐 Server running at: http://localhost:5000")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    print(f"🌐 Server running at: http://0.0.0.0:{port}")
+    print("⚡ Ready for Railway deployment!")
+    
+    app.run(debug=False, host='0.0.0.0', port=port)
